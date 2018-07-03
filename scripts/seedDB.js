@@ -13,7 +13,7 @@ mongoose.connect(
 
 const bookSeed = [
   {
-    loan: 10000,
+    loan: 11391.60,
     payment: 0,
     date: new Date(Date.now())
   }
