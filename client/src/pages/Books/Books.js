@@ -14,20 +14,25 @@ class Books extends Component {
   state = {
     loan: [],
     payment: "",
-    total: 11391.60
+    total: ""
   };
 
   componentDidMount() {
     this.loadBooks();
+   // console.log(this.state);
+  
   }
+  
 
   loadBooks = () => {
     API.getBooks()
       .then(res =>
-        this.setState({ loan: res.data })
+        this.setState({ loan: res.data }, function(){
+          this.calcCurrentLoan();
+        })
       )
       .catch(err => console.log(err));
-      console.log(this.state);
+    //  console.log(this.state);
   };
 
   deleteBook = id => {
@@ -65,7 +70,21 @@ class Books extends Component {
     newLoan -= totPayment;
     // console.log(newLoan.toFixed(2));
     // console.log(totPayment);
-    this.setState({total: newLoan.toFixed(2)})
+    this.setState({total: newLoan.toFixed(2)} , function() {
+      console.log(this.state);
+    })
+  }
+  calcCurrentLoan() {
+    let newLoan = 11391.60;
+    let totPayment = 0;
+    this.state.loan.forEach(loan => {
+      totPayment += loan.payment;
+    });
+    newLoan -= totPayment;
+    console.log(newLoan);
+    this.setState({total: newLoan});
+
+
   }
 
   render() {
@@ -75,7 +94,7 @@ class Books extends Component {
           <Col size="md-6">
             <Jumbotron>
               <h1>Make a Payment</h1>
-              <p className="lead mt-5">5.25% @ 60 Months Average Pament should be $189.86</p>
+              <p className="lead mt-3">$10,000 borrowed <br />5.25% @ 60 Months Average Pament should be $189.86</p>
             </Jumbotron>
             <form>
               <Input
