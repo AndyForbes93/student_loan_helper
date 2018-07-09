@@ -82,7 +82,7 @@ class Books extends Component {
     });
     newLoan -= totPayment;
     console.log(newLoan);
-    this.setState({total: newLoan});
+    this.setState({total: newLoan.toFixed(2)});
 
 
   }
